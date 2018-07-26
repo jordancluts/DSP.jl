@@ -513,6 +513,7 @@ function remez(numtaps::Integer, bands::Vector, desired::Vector;
         j = 1
 
       @label L200
+        nothing
         j == nzz && (ynz = comp)   # equivalent to "if (j == nzz) ynz = comp; end"
         j >= nzz && @goto L300
         kup = iext[j+1]
@@ -525,6 +526,7 @@ function remez(numtaps::Integer, bands::Vector, desired::Vector;
         nut*err <= comp && @goto L220
         comp = nut * err
       @label L210
+        nothing
         l += 1; l >= kup && @goto L215
         err = (freq_eval(l,nz,grid,x,y,ad)-des[l]) * wt[l]
         nut*err <= comp && @goto L215
@@ -532,14 +534,17 @@ function remez(numtaps::Integer, bands::Vector, desired::Vector;
         @goto L210
 
       @label L215
+        nothing
         iext[j] = l - 1; j += 1
         klow = l - 1
         jchnge += 1
         @goto L200
 
       @label L220
+        nothing
         l -= 1
       @label L225
+        nothing
         l -= 1; l <= klow && @goto L250
         err = (freq_eval(l,nz,grid,x,y,ad)-des[l]) * wt[l]
         nut*err > comp && @goto L230
@@ -547,14 +552,17 @@ function remez(numtaps::Integer, bands::Vector, desired::Vector;
         @goto L260
 
       @label L230
+        nothing
         comp = nut * err
       @label L235
+        nothing
         l -= 1; l <= klow && @goto L240
         err = (freq_eval(l,nz,grid,x,y,ad)-des[l]) * wt[l]
         nut*err <= comp && @goto L240
         comp = nut * err
         @goto L235
       @label L240
+        nothing
         klow = iext[j]
         iext[j] = l+1
         j += 1
@@ -562,10 +570,12 @@ function remez(numtaps::Integer, bands::Vector, desired::Vector;
         @goto L200
 
       @label L250
+        nothing
         l = iext[j]+1
         jchnge > 0 && @goto L215
 
       @label L255
+        nothing
         l += 1; l >= kup && @goto L260
         err = (freq_eval(l,nz,grid,x,y,ad)-des[l]) * wt[l]
         nut*err <= comp && @goto L255
@@ -573,10 +583,12 @@ function remez(numtaps::Integer, bands::Vector, desired::Vector;
 
         @goto L210
       @label L260
+        nothing
         klow = iext[j]; j += 1
         @goto L200
 
       @label L300
+        nothing
         j > nzz && @goto L320
         k1 > iext[1] && (k1 = iext[1])
         knz < iext[nz] && (knz = iext[nz])
@@ -587,6 +599,7 @@ function remez(numtaps::Integer, bands::Vector, desired::Vector;
         comp = ynz*(1.00001)
         luck = 1
       @label L310
+        nothing
         l += 1; l >= kup && @goto L315
         err = (freq_eval(l,nz,grid,x,y,ad)-des[l]) * wt[l]
         nut*err <= comp && @goto L310
@@ -599,6 +612,7 @@ function remez(numtaps::Integer, bands::Vector, desired::Vector;
         @goto L325
 
       @label L320
+        nothing
         luck > 9 && @goto L350
         comp > y1 && (y1 = comp)
         k1 = iext[nzz]
@@ -608,6 +622,7 @@ function remez(numtaps::Integer, bands::Vector, desired::Vector;
         nut = -nut1
         comp = y1*(1.00001)
       @label L330
+        nothing
         l -= 1; l <= klow && @goto L340
         err = (freq_eval(l,nz,grid,x,y,ad)-des[l]) * wt[l]
         nut*err <= comp && @goto L330
@@ -616,6 +631,7 @@ function remez(numtaps::Integer, bands::Vector, desired::Vector;
         luck = luck + 10
         @goto L235
       @label L340
+        nothing
         luck == 6 && @goto L370
         for j = 1 : nfcns
             iext[nzz-j] = iext[nz-j]
@@ -631,6 +647,7 @@ function remez(numtaps::Integer, bands::Vector, desired::Vector;
 
         @goto L100
       @label L370
+        nothing
         
         
         if jchnge <= 0  # we are done if none of the extremal indices changed
